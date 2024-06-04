@@ -1,0 +1,219 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Address</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Address</h1>
+    <div class="container">
+        <form id="editAddressForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+            </div>
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input type="text" id="street" name="street" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="form-group">
+                <label for="zip">Zip</label>
+                <input type="text" id="zip" name="zip" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            <button type="submit" class="btn">Save</button>
+        </form>
+    </div>
+    <script src="editaddress1.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Address</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Address</h2>
+        <form id="editAddressForm">
+            <input type="hidden" id="addressId" name="addressId">
+            <label for="addressType">Address Type:</label>
+            <input type="text" id="addressType" name="addressType">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone">
+            <label for="street">Street:</label>
+            <input type="text" id="street" name="street">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city">
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state">
+            <label for="zip">Zip:</label>
+            <input type="text" id="zip" name="zip">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country">
+            <button type="button" onclick="updateAddress()">Apply</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const addressId = localStorage.getItem('editAddressId');
+            if (addressId) {
+                fetch(`/getAddresses/${addressId}`)
+                    .then(response => response.json())
+                    .then(address => {
+                        document.getElementById('addressId').value = address.id;
+                        document.getElementById('addressType').value = address.addressType;
+                        document.getElementById('name').value = address.name;
+                        document.getElementById('phone').value = address.phone;
+                        document.getElementById('street').value = address.street;
+                        document.getElementById('city').value = address.city;
+                        document.getElementById('state').value = address.state;
+                        document.getElementById('zip').value = address.zip;
+                        document.getElementById('country').value = address.country;
+                    })
+                    .catch(error => console.error('Error fetching address:', error));
+            }
+        });
+
+        function updateAddress() {
+            const addressId = document.getElementById('addressId').value;
+            const address = {
+                addressType: document.getElementById('addressType').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                street: document.getElementById('street').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                zip: document.getElementById('zip').value,
+                country: document.getElementById('country').value
+            };
+
+            fetch(`/updateAddress/${addressId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(address)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update address');
+                }
+                alert("Address updated successfully");
+                window.location.href = 'changeAddress.html';
+            })
+            .catch(error => console.error('Error updating address:', error));
+        }
+    </script>
+</body>
+</html>
+

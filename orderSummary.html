@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .address, .cart-details {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Summary</h1>
+    <div class="container">
+        <div class="address">
+            <h2>Deliver to:</h2>
+            <p id="deliveryAddress"></p>
+            <button id="changeAddressButton" class="btn">Change</button>
+        </div>
+        <div class="cart-details">
+            <h2>Cart Details:</h2>
+            <table border="1" id="orderTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Number</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTableBody">
+                    <!-- Order details will be added dynamically here -->
+                </tbody>
+            </table>
+            <h2>Total Price: <span id="orderTotalPrice">0.00</span></h2>
+        </div>
+        <button id="continueButton" class="btn">Continue</button>
+    </div>
+    <script src="orderSummary.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Address</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .address-list, .new-address-button {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .address-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .address-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Change Address</h1>
+    <div class="container">
+        <div class="new-address-button">
+            <h2>Add New Address</h2>
+            <button id="addAddressButton" class="btn">Add New Address</button>
+        </div>
+        <div class="address-list">
+            <h2>Select an Address</h2>
+            <div id="addressList">
+                <!-- Address items will be added dynamically here -->
+            </div>
+            <button id="deliverHereButton" class="btn">Deliver Here</button>
+        </div>
+    </div>
+    <script src="changeAddress.js"></script>
+</body>
+</html>

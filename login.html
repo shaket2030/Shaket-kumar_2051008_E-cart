@@ -1,0 +1,411 @@
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="auth.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #loginStatus {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" action="/login" method="POST">
+            <div>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="loginStatus"></p>
+    </div>
+
+    <script>
+        function validateForm() {
+            const errorMessage = '<%= typeof message !== "undefined" ? message : "" %>';
+            if (errorMessage) {
+                alert(errorMessage);
+                return false; // Prevent form submission on error
+            }
+            return true; // Allow form submission if no error
+        }
+    </script>
+
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- <script src="auth.js"></script> -->
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #loginStatus {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" action="/login" method="POST">
+            <div>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="loginStatus"></p>
+        <p id="forgotPassword">Forgot password</p>
+        <p id="resetPassword">Reset password</p>
+    </div>
+
+    <div id="resetPasswordModal" style="display: none;">
+        <h2>Reset Password</h2>
+        <input type="text" id="resetUsername" placeholder="Enter your username" required>
+        <input type="password" id="oldPassword" placeholder="Enter your old password" required>
+        <input type="password" id="newPassword1" placeholder="Enter new password (8-16 characters)" required>
+        <input type="password" id="confirmPassword1" placeholder="Confirm new password" required>
+        <button onclick="resetPassword()">Reset Password</button>
+        <p id="resetPasswordStatus"></p>
+    </div>
+
+    <div id="forgotPasswordModal" style="display: none;">
+        <h2>Forgot Password</h2>
+        <input type="text" id="forgotUsername" placeholder="Enter your username" required>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button onclick="sendOTP()">Send OTP</button>
+        <!-- <button onclick="sendOTP()" disabled>Resend OTP</button> -->
+        <button id="resendOTP" onclick="resendOTP()" disabled>Resend OTP</button>
+        <div id="otpSection" style="display: none;">
+            <input type="text" id="otp" placeholder="Enter OTP" required>
+            <button onclick="verifyOTP()">Verify OTP</button>
+            <p id="otpStatus"></p>
+            <p id="otpTimer"></p>
+        </div>
+        <div id="newPasswordSection" style="display: none;">
+            <input type="password" id="newPassword" placeholder="New Password (8-16 characters)" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button onclick="changePassword()">Change Password</button>
+        </div>
+    </div>
+
+    <script>
+        let otpvalid=true;
+
+function sendOTP() {
+    const username = document.getElementById("forgotUsername").value;
+    const email = document.getElementById("email").value;
+    
+    if (username && email) {
+        fetch('/validateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, email })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Invalid username or email');
+            }
+        })
+        .then(data => {
+            if (data.valid) {
+                // Validation successful, proceed to send OTP
+                return fetch('/sendOTP', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email })
+                });
+            } else {
+                // Validation failed, show error message
+                alert('Invalid username or email.');
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // OTP sent successfully
+                console.log('OTP sent successfully.');
+                document.getElementById("otpSection").style.display = "block";
+                startOTPTimer();
+            } else {
+                // Handle error if OTP sending fails
+                throw new Error('Failed to send OTP.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to validate user or send OTP. Please try again.');
+        });
+    } else {
+        alert('Please enter both username and email.');
+    }
+}
+
+
+
+        function verifyOTP() {
+            const otp = document.getElementById("otp").value;
+            if (otp && otpvalid) {
+                fetch('/verifyOTP', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                   // body: JSON.stringify({ otp })
+                   body: JSON.stringify({ username: document.getElementById("forgotUsername").value, enteredOTP: otp })
+                })
+                .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to verify OTP');
+            }
+        })
+                .then(data => {
+                    console.log(data.message); // OTP verification success message
+                    document.getElementById("otpSection").style.display = "none";
+                    document.getElementById("newPasswordSection").style.display = "block";
+                    otpValid = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Invalid OTP. Please try again.');
+                });
+            } else {
+                alert('Please enter the OTP received on your email.');
+            }
+        }
+
+        function changePassword() {
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            
+
+            // Validate new password format
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()-_+=])[a-zA-Z0-9!@#$%^&*()-_+=]{8,16}$/;
+          //  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()-_+=])[a-zA-Z0-9!@#$%^&*()-_+=]{8,16}$/;
+            if (!passwordRegex.test(newPassword)) {
+                
+                alert('New password must be 8-16 characters with at least one uppercase letter and two special characters.');
+                return;
+            }
+
+            // Validate password match
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match. Please confirm your new password.');
+                return;
+            }
+
+            // Example AJAX request to update password
+            fetch('/updatePassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: document.getElementById("forgotUsername").value, newPassword })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Password updated successfully message
+                alert('Password updated successfully. Redirecting to user page...');
+                window.location.href = 'userpage.html';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update password. Please try again.');
+            });
+        }
+
+        function startOTPTimer() {
+            let timeLeft = 100; // OTP expires in 5 minutes (300 seconds)
+            const timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById("otpTimer").textContent = `OTP will expire in ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                timeLeft -= 1;
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("otpTimer").textContent = 'OTP expired. Please resend.';
+                    otpvalid=false;
+                    document.getElementById("resendOTP").disabled = false;
+                }
+            }, 1000);
+        }
+    function resetPassword() {
+    const username = document.getElementById('resetUsername').value;
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Perform client-side validation
+    if (newPassword !== confirmPassword) {
+        document.getElementById('resetPasswordStatus').textContent = 'New password and confirm password do not match.';
+        return;
+    }
+
+    // Send a request to your server-side endpoint for password reset
+    // Replace the URL with your actual server-side endpoint
+    fetch('/reset-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            oldPassword: oldPassword,
+            newPassword: newPassword,
+        }),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text(); // Assuming the server sends a text response
+        } else {
+            throw new Error('Failed to reset password');
+        }
+    })
+    .then(data => {
+        document.getElementById('resetPasswordStatus').textContent = data;
+        // Clear input fields after successful password reset
+        document.getElementById('resetUsername').value = '';
+        document.getElementById('oldPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        alert('Password updated successfully. Redirecting to user page...');
+        window.location.href = 'userpage.html';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occured.Please try again later.');
+        //document.getElementById('resetPasswordStatus').textContent = 'An error occurred. Please try again.';
+    });
+}
+
+function resendOTP() {
+    otpValid = true;
+    document.getElementById("resendOTP").disabled = true; // Disable Resend OTP button again
+    // Call your OTP send logic again here (similar to the initial sendOTP() function)
+    sendOTP(); // For example, trigger the sendOTP() function again
+}
+
+        document.getElementById("forgotPassword").addEventListener("click", function() {
+            document.getElementById("forgotPasswordModal").style.display = "block";
+        });
+        document.getElementById("resetPassword").addEventListener("click", function() {
+            document.getElementById("resetPasswordModal").style.display = "block";
+        });
+    </script>
+
+    <!-- <script src="login.js"></script> -->
+</body>
+</html>
+
+

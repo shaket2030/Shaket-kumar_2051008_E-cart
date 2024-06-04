@@ -1,0 +1,92 @@
+{
+  "123shaket": [
+    {
+      "addressType": "Home",
+      "name": "shaket kumar",
+      "phone": "2323232323",
+      "street": "vip",
+      "city": "kol",
+      "state": "wb",
+      "zip": "123459",
+      "country": "India",
+      "id": 1
+    },
+    {
+      "addressType": "Office",
+      "name": "jhbcsjd",
+      "phone": "5050505050",
+      "street": "jdw",
+      "city": "fjksdbf",
+      "state": "jhjhsd",
+      "zip": "203040",
+      "country": "dfbhv",
+      "id": 2
+    },
+    {
+      "addressType": "Office",
+      "name": "ajhdvh",
+      "phone": "3030303030",
+      "street": "xa",
+      "city": "ksjf",
+      "state": "jhdbwdw",
+      "zip": "101010",
+      "country": "wkhjh",
+      "id": 3
+    },
+    {
+      "addressType": "Office",
+      "name": "kjs",
+      "phone": "1020202020",
+      "street": "mxna",
+      "city": "dkj",
+      "state": "dj",
+      "zip": "605040",
+      "country": "jj",
+      "id": 4
+    },
+    {
+      "addressType": "Home",
+      "name": "hdh",
+      "phone": "1020304050",
+      "zip": "700042",
+      "state": "West Bengal",
+      "city": "Kolkata",
+      "street": "un",
+      "country": "India",
+      "id": 5
+    },
+    {
+      "addressType": "Office",
+      "name": "hgfgsf",
+      "phone": "5050505050",
+      "zip": "12345",
+      "state": "mnn",
+      "city": "mnn",
+      "street": "nn",
+      "country": "nn",
+      "id": 6
+    },
+    {
+      "addressType": "Home",
+      "name": "bbbbbbbb",
+      "phone": "2002022020",
+      "zip": "700150",
+      "state": "West Bengal",
+      "city": "Rajpur Sonarpur",
+      "street": "sdsd",
+      "country": "India",
+      "id": 7
+    },
+    {
+      "addressType": "Home",
+      "name": "dgag",
+      "phone": "2020202020",
+      "zip": "700091",
+      "state": "West Bengal",
+      "city": "Bidhannagar",
+      "street": "unnamed road",
+      "country": "India",
+      "id": 8
+    }
+  ]
+}

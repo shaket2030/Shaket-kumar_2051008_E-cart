@@ -1,0 +1,124 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+</head>
+<body>
+    <h1>Your Cart</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Number</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Remove Item</th>
+            </tr>
+        </thead>
+        <tbody id="cartTableBody">
+            <!-- Table rows for cart contents will be added dynamically here --
+        </tbody>
+    </table>
+    <h2>Total Price: $<span id="totalPrice">0.00</span></h2>
+    <button id="placeOrderButton">Place Order</button>
+
+    <script src="cart.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total-price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+        .total-price-container h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .total-price-container #totalPrice {
+            color: #4CAF50;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Number</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Remove Item</th>
+                <th>Add Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="cartTableBody">
+            <!-- Table rows for cart contents will be added dynamically here -->
+        </tbody>
+    </table>
+    <div class="total-price-container">
+        <h2>Total Price:<span id="totalPrice">0.00</span></h2>
+        <button id="placeOrderButton" class="btn">Place Order</button>
+    </div>
+    <script src="cart.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,78 @@
+{
+  "users": [
+    {
+      "username": "john",
+      "password": "secret123"
+    },
+    {
+      "username": "alice",
+      "password": "p@ssw0rd"
+    },
+    {
+      "username": "bob",
+      "password": "letmein"
+    },
+    {
+      "username": "shaket",
+      "password": "gfh"
+    },
+    {
+      "username": "hgxvhaxv",
+      "password": "cvahva"
+    },
+    {
+      "username": "john6",
+      "password": "secret123"
+    },
+    {
+      "username": "john8",
+      "password": "secret123"
+    },
+    {
+      "username": "johm",
+      "password": "password"
+    },
+    {
+      "username": "john0",
+      "password": "secret123"
+    },
+    {
+      "username": "adarsh",
+      "password": "12345"
+    },
+    {
+      "username": "amit",
+      "password": "kumar"
+    },
+    {
+      "username": "abcd",
+      "password": "efgh"
+    },
+    {
+      "username": "accc",
+      "password": "saket@123"
+    },
+    {
+      "username": "qwerty",
+      "password": "Saket@@123"
+    },
+    {
+      "username": "ddddd",
+      "password": "Saket@123@"
+    },
+    {
+      "name": "shaket",
+      "email": "saketjh123@gmail.com",
+      "phone": "7257067085",
+      "username": "saket6070",
+      "password": "Saket@@2345"
+    },
+    {
+      "name": "shaket",
+      "email": "shaketjh1238@gmail.com",
+      "phone": "7257067081",
+      "username": "123shaket",
+      "password": "Qwerty@@123"
+    }
+  ]
+}

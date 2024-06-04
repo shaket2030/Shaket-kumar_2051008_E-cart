@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addresses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .navbar a {
+            float: right;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        #loggedInUser {
+            float: right;
+            color: white;
+            margin-right: 20px;
+            padding: 14px 20px;
+        }
+        #addAddressButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        #addAddressButton:hover {
+            background-color: #218838;
+        }
+        #addressesContainer {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        .address {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span id="loggedInUser">Hey, <span id="usernamePlaceholder">[Logged In Username]</span>!</span>
+        <a id="logoutBtn" href="/logout" role="button">Log Out</a>
+    </div>
+
+    <a id="addAddressButton" href="address.html">Add New Address</a>
+
+    <div id="addressesContainer">
+        <!-- Addresses will be dynamically added here -->
+    </div>
+
+    <script>
+        var currentUser;
+
+        function getLoggedInUser() {
+            fetch('/getLoggedInUser')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(loggedInUsername => {
+                    document.getElementById('usernamePlaceholder').innerText = loggedInUsername;
+                    currentUser=loggedInUsername;
+                    fetchAddresses();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+    function deleteAddress(addressId) {
+            console.log(addressId);
+        // Send a request to delete the address with the given ID
+        fetch(`/deleteAddress/${addressId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete address');
+            }
+            // Reload the addresses after successful deletion
+            alert("Address deleted successfully");
+            fetchAddresses();
+        })
+        .catch(error => console.error('Error deleting address:', error));
+    }
+
+
+        function fetchAddresses() {
+            fetch('/getAddresses')
+                .then(response => response.json())
+                .then(addresses => {
+                    if (addresses && addresses.length > 0) {
+                        
+                        displayAddresses(addresses);
+                    } else {
+                        // No addresses found
+                        
+                        document.getElementById('addressesContainer').innerHTML = '<p>No addresses found.</p>';
+                    }
+                })
+                .catch(error => console.error('Error fetching addresses:', error));
+        }
+
+        function displayAddresses(addresses) {
+            const addressesContainer = document.getElementById('addressesContainer');
+            addressesContainer.innerHTML = ''; // Clear previous addresses
+
+            addresses.forEach(address => {
+                const addressElement = document.createElement('div');
+                addressElement.classList.add('address');
+                addressElement.innerHTML = `
+                <p><strong>Address Type:</strong> ${address.addressType}</p>
+                    <p><strong>Name:</strong> ${address.name}</p>
+                    <p><strong>Phone:</strong> ${address.phone}</p>
+                    <p><strong>Street:</strong> ${address.street}</p>
+                    <p><strong>City:</strong> ${address.city}</p>
+                    <p><strong>State:</strong> ${address.state}</p>
+                    <p><strong>Zip:</strong> ${address.zip}</p>
+                    <p><strong>Country:</strong> ${address.country}</p>
+                    <div class="address-buttons">
+                        <button class="edit-button" onclick="editAddress(${address.id})">Edit</button>
+                        <button class="delete-button" onclick="deleteAddress(${address.id})">Delete</button>
+                    </div>
+                    <hr>
+                `;
+                addressesContainer.appendChild(addressElement);
+            });
+        }
+    function editAddress(addressId) {
+        window.location.href = `editAddress.html?id=${addressId}`;
+    }
+
+        getLoggedInUser();
+    </script>
+</body>
+</html>
