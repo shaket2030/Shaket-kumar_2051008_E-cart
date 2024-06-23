@@ -1,7 +1,7 @@
 const cartTableBody = document.getElementById('cartTableBody');
 const totalPriceElement = document.getElementById('totalPrice');
 
-// Function to fetch and display the cart contents
+
 async function fetchCartContents() {
     try {
         const response = await fetch('/cart-contents', { credentials: 'same-origin' });
@@ -9,11 +9,11 @@ async function fetchCartContents() {
         
         console.log("ll"+cartData);
 
-        // Clear previous table content
+       
         cartTableBody.innerHTML = '';
         let totalprice=0;
 
-        // Populate table with cart contents
+        
         cartData.forEach(item => {
             const row = createCartItemRow(item);
             cartTableBody.appendChild(row);
@@ -30,13 +30,13 @@ async function fetchCartContents() {
         console.log(totalprice);
         totalPriceElement.textContent = totalprice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-       // totalPriceElement.textContent = totalPrice.toFixed(2);
+      
     } catch (error) {
         console.error('Error fetching cart contents:', error);
     }
 }
 
-// Helper function to create a table row for a cart item
+
 function createCartItemRow(item) {
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -52,13 +52,13 @@ function createCartItemRow(item) {
     return row;
 }
 
-// Function to handle item removal
+
 async function handleRemove(productNumber) {
     try {
         const response = await fetch(`/remove-item/${productNumber}`, { method: 'DELETE', credentials: 'same-origin' });
         const updatedCartData = await response.json();
 
-        // After removing item, fetch updated cart contents
+       
         fetchCartContents();
     } catch (error) {
         console.error('Error removing item:', error);
@@ -68,9 +68,9 @@ async function handleAdd(productNumber) {
     try {
         const response = await fetch(`/add-item/${productNumber}`, { method: 'POST', credentials: 'same-origin' });
         const updatedCartData = await response.json();
-      //  console.log(updatedCartData);
+     
 
-        // After adding item, fetch updated cart contents
+        
         fetchCartContents();
     } catch (error) {
         console.error('Error adding item:', error);
@@ -80,5 +80,5 @@ document.getElementById('placeOrderButton').addEventListener('click', () => {
     window.location.href = 'orderSummary.html';
 });
 
-// Call fetchCartContents when the page is loaded
+
 fetchCartContents();
