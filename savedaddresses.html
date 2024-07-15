@@ -73,7 +73,7 @@
     <a id="addAddressButton" href="address.html">Add New Address</a>
 
     <div id="addressesContainer">
-        <!-- Addresses will be dynamically added here -->
+       
     </div>
 
     <script>
@@ -99,7 +99,7 @@
 
     function deleteAddress(addressId) {
             console.log(addressId);
-        // Send a request to delete the address with the given ID
+        
         fetch(`/deleteAddress/${addressId}`, {
             method: 'DELETE'
         })
@@ -107,7 +107,7 @@
             if (!response.ok) {
                 throw new Error('Failed to delete address');
             }
-            // Reload the addresses after successful deletion
+           
             alert("Address deleted successfully");
             fetchAddresses();
         })
@@ -123,7 +123,7 @@
                         
                         displayAddresses(addresses);
                     } else {
-                        // No addresses found
+                       
                         
                         document.getElementById('addressesContainer').innerHTML = '<p>No addresses found.</p>';
                     }
@@ -133,7 +133,7 @@
 
         function displayAddresses(addresses) {
             const addressesContainer = document.getElementById('addressesContainer');
-            addressesContainer.innerHTML = ''; // Clear previous addresses
+            addressesContainer.innerHTML = ''; 
 
             addresses.forEach(address => {
                 const addressElement = document.createElement('div');
