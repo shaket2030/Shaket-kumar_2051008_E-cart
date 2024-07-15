@@ -9,7 +9,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     fetch('admin.json')
         .then(response => response.json())
         .then(data => {
-            // Check if username and password match any admin in the JSON data
+            
             var admins = data.admins;
             var loginSuccessful = false;
             for (var i = 0; i < admins.length; i++) {
