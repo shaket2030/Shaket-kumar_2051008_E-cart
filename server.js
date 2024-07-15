@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 
-// Serve static files from the public directory
+
 app.use(express.static(path.join(__dirname, '')));
 const jsonFilePath = path.join(__dirname, 'product.json');
 const userDataFilePath = path.join(__dirname, 'user.json');
@@ -58,7 +58,7 @@ function isAuth(req,res,next){
 
 
 
-// Endpoint to serve the HTML file
+
 
 app.get('/', (req, res) => {
     console.log("hello");
@@ -69,93 +69,19 @@ app.get('/', (req, res) => {
 app.get('/checkAuth', (req, res) => {
   if (req.isAuthenticated()) {
     console.log("i am ok");
-    res.sendStatus(200); // User is authenticated (send HTTP status 200)
+    res.sendStatus(200); 
   } else {
-    res.sendStatus(401); // User is not authenticated (send HTTP status 401)
+    res.sendStatus(401); 
   }
 });
 
-// app.delete('/remove-item/:productNumber', async (req, res) => {
-//   try {
-//       const productNumber = parseInt(req.params.productNumber);
-//       const cartFilePath = path.join(__dirname, 'cart1.json');
 
-//       // Read cart data from file
-//       const cartData = await fs.readFile(cartFilePath, 'utf8');
-//       const cartItems = JSON.parse(cartData);
-
-//       // Find the item in the cart by product number
-//       const index = cartItems.findIndex(item => item.product_number === productNumber);
-
-//       if (index !== -1) {
-//           if (cartItems[index].quantity > 1) {
-//               // Decrement quantity if more than one
-//               cartItems[index].quantity--;
-//           } else {
-//               // Remove item if quantity is one
-//               cartItems.splice(index, 1);
-//           }
-
-//           // Write updated cart data back to file
-//           await fs.writeFile(cartFilePath, JSON.stringify(cartItems, null, 2));
-
-//           // Respond with updated cart data
-//           res.json(cartItems);
-//       } else {
-//           res.status(404).json({ message: 'Item not found in cart' });
-//       }
-//   } catch (error) {
-//       console.error('Error removing item:', error);
-//       res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-
-// app.delete('/remove-item/:productNumber', async (req, res) => {
-//   const { productNumber } = req.params;
-
-  
-
-//   try {
-//       // Read cart data from cart1.json (assuming it's an array of items)
-//       const cartFilePath = path.join(__dirname, 'cart1.json');
-//       console.log(productNumber);
-//       let cartData = await fs.readFileSync('cart1.json', 'utf8');
-//       console.log("hello"+productNumber);
-//       cartData = JSON.parse(cartData);
-//       console.log(cartData);
-
-//       // Find item in cart by productNumber
-//       const index = cartData.findIndex(item => item.product_number === productNumber);
-
-//       if (index !== -1) {
-//           // Decrement quantity or remove item
-//           if (cartData[index].quantity > 1) {
-//               cartData[index].quantity -= 1;
-//           } else {
-//               // Remove item from cart if quantity is 1
-//               cartData.splice(index, 1);
-//           }
-
-//           // Write updated cart data back to cart1.json
-//           await fs.writeFile('cart1.json', JSON.stringify(cartData, null, 2));
-
-//           // Send updated cart data as response
-//           res.json(cartData);
-//       } else {
-//           res.status(404).send('Item not found in cart');
-//       }
-//   } catch (error) {
-//       console.error('Error updating cart:', error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// });
 app.post('/submit-address', (req, res) => {
     const addressFile = path.join(__dirname, 'address.json');
     const userAddress = req.body;
     
-    // Simulate current logged-in user
-    const username = req.user.username; // Replace with actual logic
+   
+    const username = req.user.username; 
 
     fs.readFile(addressFile, (err, data) => {
         let users = {};
@@ -164,7 +90,7 @@ app.post('/submit-address', (req, res) => {
             try {
                 users = JSON.parse(data);
             } catch (parseErr) {
-                // If there's an error in parsing, initialize to an empty object
+                
                 users = {};
             }
         }
@@ -201,12 +127,12 @@ app.delete('/deleteAddress/:id', (req, res) => {
         try {
             addresses = JSON.parse(data);
         } catch (parseErr) {
-            // If there's an error in parsing, initialize to an empty object
+           
             addresses = {};
         }
 
-        // Simulate current logged-in user
-        const username = req.user.username; // Replace with actual logic
+       
+        const username = req.user.username; 
 
         if (!addresses[username]) {
             return res.status(404).send('User not found');
@@ -218,16 +144,16 @@ app.delete('/deleteAddress/:id', (req, res) => {
         if (index !== -1) {
             userAddresses.splice(index, 1);
 
-            // Write the updated addresses back to the file
+            
             fs.writeFile(addressFile, JSON.stringify(addresses, null, 2), (err) => {
                 if (err) {
                     res.status(500).send('Error deleting address.');
                 } else {
-                    res.sendStatus(200); // Respond with success status
+                    res.sendStatus(200); 
                 }
             });
         } else {
-            res.status(404).send('Address not found'); // Address with given ID not found
+            res.status(404).send('Address not found'); 
         }
     });
 });
@@ -282,7 +208,7 @@ app.put('/updateAddress/:id', (req, res) => {
     });
   });
 app.get('/getLoggedInUser',(req, res) => {
-    // Assuming you have a user object stored in req.user'
+    
     console.log(req.user);
     console.log(req.user.username);
     const loggedInUsername = req.user.username;
@@ -307,7 +233,7 @@ app.post('/updateUserProfile', (req, res) => {
         let user = users.users.find(user => user.username === username);
 
         if (user) {
-            // Check if the phone or email already exists for another user
+            
             const existingUser = users.users.find(user => 
                 (user.phone === phone || user.email === email) && user.username !== username
             );
@@ -338,7 +264,7 @@ app.post('/updateUserProfile', (req, res) => {
 app.get('/getAddresses', (req, res) => {
     
     const addressesFilePath = path.join(__dirname, 'address.json');
-    const username = req.user.username; // Replace with dynamic session-based username
+    const username = req.user.username;
 
     fs.readFile(addressesFilePath, 'utf8', (err, data) => {
         if (err) {
@@ -361,17 +287,17 @@ app.get('/getAddresses', (req, res) => {
 
 
 app.delete('/remove-item/:productNumber',  async (req, res) => {
-  const username = req.user.username; // Get username from authenticated user
+  const username = req.user.username; 
 
   const { productNumber } = req.params;
   const cartFilePath = path.join(__dirname, 'cart1.json');
 
   try {
-      // Read cart data from cart1.json
+      
       let cartData = await fs.readFileSync(cartFilePath, 'utf8');
       cartData = JSON.parse(cartData);
 
-      // Find the user's cart by username
+      
       const userCart = cartData[username];
      // console.log(userCart);
 
@@ -379,7 +305,7 @@ app.delete('/remove-item/:productNumber',  async (req, res) => {
           return res.status(404).send('User not found or cart is empty');
       }
 
-      // Find the index of the item to remove in the user's cart
+      
       const index = userCart.findIndex(item => item.product_number === parseInt(productNumber));
       console.log(index);
 
@@ -387,7 +313,7 @@ app.delete('/remove-item/:productNumber',  async (req, res) => {
           return res.status(404).send('Item not found in user\'s cart');
       }
 
-      // Decrement quantity or remove the item from the user's cart
+     
       if (userCart[index].quantity > 1) {
           userCart[index].quantity -= 1;
       } else {
@@ -397,10 +323,10 @@ app.delete('/remove-item/:productNumber',  async (req, res) => {
 
       console.log("hello world");
 
-      // Write the updated cart data back to cart1.json
+      
       await fs.writeFileSync(cartFilePath, JSON.stringify(cartData, null, 2), 'utf8'); 
 
-      // Send the updated user's cart as response
+      
       res.json(userCart);
   } catch (error) {
       console.error('Error removing item:', error);
@@ -408,33 +334,10 @@ app.delete('/remove-item/:productNumber',  async (req, res) => {
   }
 });
 
-// app.get('/addressdetails', (req, res) => {
-//     const username = req.user.username;
-//     const addressFilePath = path.join(__dirname, 'address.json');
 
-//     fs.readFile(addressFilePath, 'utf8', (err, data) => {
-//         if (err) {
-//             console.error('Error reading address file:', err);
-//             res.status(500).json({ error: 'Internal Server Error' });
-//             return;
-//         }
-
-//         const addressData = JSON.parse(data);
-//         const userAddresses = addressData[username];
-//         console.log("mm"+userAddresses[0]);
-        
-//         if (userAddresses && userAddresses.length > 0) {
-//             // Send only the first address
-//           //  console.log(userAddresses[0]);
-//             res.json(userAddresses[0]);
-//         } else {
-//             res.status(404).json({ error: 'Address not found' });
-//         }
-//     });
-// });
 app.get('/addressdetails/:addressId', (req, res) => {
     const username = req.user.username;
-    const addressId = parseInt(req.params.id, 10); // Get the address ID from the request parameters
+    const addressId = parseInt(req.params.id, 10); 
     const addressFilePath = path.join(__dirname, 'address.json');
     console.log("dd"+addressId);
 
@@ -452,7 +355,7 @@ app.get('/addressdetails/:addressId', (req, res) => {
         console.log("bb"+userAddresses);
         
         if (userAddresses && userAddresses.length > 0) {
-            // Find the address with the provided address ID
+            
             const address = userAddresses.find(address => address.id === addressId);
             console.log("ff"+address);
             if (address) {
@@ -469,17 +372,17 @@ app.get('/addressdetails/:addressId', (req, res) => {
 
 
 app.post('/add-item/:productNumber',  async (req, res) => {
-    const username = req.user.username; // Get username from authenticated user
+    const username = req.user.username; 
   
     const { productNumber } = req.params;
     const cartFilePath = path.join(__dirname, 'cart1.json');
   
     try {
-        // Read cart data from cart1.json
+       
         let cartData = await fs.readFileSync(cartFilePath, 'utf8');
         cartData = JSON.parse(cartData);
   
-        // Find the user's cart by username
+       
         const userCart = cartData[username];
        // console.log(userCart);
   
@@ -487,7 +390,7 @@ app.post('/add-item/:productNumber',  async (req, res) => {
             return res.status(404).send('User not found or cart is empty');
         }
   
-        // Find the index of the item to remove in the user's cart
+        
         const index = userCart.findIndex(item => item.product_number === parseInt(productNumber));
         console.log(index);
   
@@ -495,7 +398,7 @@ app.post('/add-item/:productNumber',  async (req, res) => {
             return res.status(404).send('Item not found in user\'s cart');
         }
   
-        // Decrement quantity or remove the item from the user's cart
+       
         if (userCart[index].quantity > 1) {
             console.log("secondtime");
             userCart[index].quantity += 1;
@@ -507,10 +410,10 @@ app.post('/add-item/:productNumber',  async (req, res) => {
   
         console.log("hello world");
   
-        // Write the updated cart data back to cart1.json
+       
         await fs.writeFileSync(cartFilePath, JSON.stringify(cartData, null, 2), 'utf8'); 
   
-        // Send the updated user's cart as response
+       
         res.json(userCart);
     } catch (error) {
         console.error('Error removing item:', error);
@@ -524,53 +427,18 @@ app.post('/add-item/:productNumber',  async (req, res) => {
 
 
 app.get('/login/home', (req, res) => {
-    // Redirect user to login.html for user login
+    
     res.redirect('/landing.html');
 });
 
-// app.post('/add-to-cart', (req, res) => {
 
-  
-//   const { userId, product } = req.body;
-//   console.log(userId +product);
-
-//   // Read cart data from cart.json
-//   fs.readFile('cart.json', 'utf8', (err, data) => {
-//       if (err) {
-//           console.error('Error reading file:', err);
-//           res.status(500).send('Internal Server Error');
-//           return;
-//       }
-
-//       let cartData = JSON.parse(data);
-//       console.log(cartData);
-
-//       // Add product to user's cart
-//       if (!cartData[userId]) {
-//           cartData[userId] = [];
-//       }
-
-//       cartData[userId].push(product);
-
-//       // Write updated cart data back to cart.json
-//       fs.writeFile('cart.json', JSON.stringify(cartData), (err) => {
-//           if (err) {
-//               console.error('Error writing file:', err);
-//               res.status(500).send('Internal Server Error');
-//               return;
-//           }
-//           res.status(200).send('Product added to cart!');
-//       });
-//   });
-// });
 app.post('/add-to-cart', (req, res) => {
  // console.log(req.user);
-  const productToAdd = req.body; // Received product details from frontend
+  const productToAdd = req.body; 
   console.log(productToAdd);
   const loggedInUsername = req.user.username;
- // console.log(loggedInUsername);
-
-  // Read cart data from cart.json
+ 
+  
   fs.readFile('cart1.json', 'utf8', (err, data) => {
       if (err) {
           console.error('Error reading file:', err);
@@ -579,20 +447,20 @@ app.post('/add-to-cart', (req, res) => {
       }
 
       let cartData = JSON.parse(data);
-      //console.log(cartData);
+      
 
-      // Check if the current logged-in user exists in cartData
+      
       if (cartData[loggedInUsername]) {
-          // User exists in cart.json, add product to their cart
+          
           console.log("exist");
           cartData[loggedInUsername].push(productToAdd);
       } else {
-          // User does not exist in cart.json, create a new entry for the user
+         
           console.log("notexist");
           cartData[loggedInUsername] = [productToAdd];
       }
 
-      // Write updated cart data back to cart.json
+      
       fs.writeFile('cart1.json', JSON.stringify(cartData), (err) => {
           if (err) {
               console.error('Error writing file:', err);
@@ -607,7 +475,7 @@ app.post('/add-to-cart', (req, res) => {
 app.get('/cart-contents',  (req, res) => {
   const username = req.user.username;
 
-  // Read cart data from file (e.g., cart1.json)
+  
   fs.readFile('cart1.json', 'utf8', (err, data) => {
       if (err) {
           console.error('Error reading cart data:', err);
@@ -621,7 +489,7 @@ app.get('/cart-contents',  (req, res) => {
           const userCart = cartData[username] || [];
           console.log("h"+userCart);
 
-          // Calculate product quantities
+         
           const cartContents = [];
           const productCountMap = {};
 
@@ -635,7 +503,7 @@ app.get('/cart-contents',  (req, res) => {
               }
           });
 
-          // Update quantities in cart contents
+          
           cartContents.forEach(item => {
               const key = `${item.product_name}-${item.product_number}-${item.color}-${item.size}`;
               item.quantity = productCountMap[key];
@@ -666,9 +534,9 @@ app.get('/cart', (req, res) => {
   });
 });
 
-// Endpoint to handle user login
+
 app.get('/login/user', (req, res) => {
-    // Redirect user to login.html for user login
+    
     res.redirect('/login.html');
 });
 
@@ -677,13 +545,13 @@ app.get('/login/user', (req, res) => {
 
 
 
-// Endpoint to handle admin login
+
 app.get('/login/admin', (req, res) => {
-    // Redirect admin to admin.html for admin login
+    
     res.redirect('/admin.html');
 });
 
-// Endpoint to serve the JSON data
+
 app.get('/products', (req, res) => {
     fs.readFile('products.json', 'utf8', (err, data) => {
         if (err) {
@@ -720,14 +588,14 @@ app.post('/api/products', (req, res) => {
 
         products.push(newProduct);
 
-        // Write updated products array back to the JSON file
+        
         fs.writeFile(jsonFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
             if (err) {
                 console.error('Error writing file:', err);
                 res.status(500).json({ error: 'Internal Server Error' });
                 return;
             }
-            res.json(newProduct); // Respond with the newly added product
+            res.json(newProduct); 
         });
     });
 });
@@ -741,86 +609,21 @@ app.get("/logout", (req, res) => {
       res.redirect("/userpage.html");
     });
   });
-// app.get("/logout", (req, res) => {
-//   req.logout();
-//   res.redirect("/userpage.html");
-// });
-// app.post('/register', (req, res) => {
-//     const { username, password } = req.body;
-//     console.log(username);
 
-//     if (!username || !password) {
-//         return res.send('Username and password are required.');
-//     }
-
-//     fs.readFile('user.json', (err, data) => {
-//         if (err) {
-//             return res.status(500).send('Error reading user data.');
-//         }
-
-//         const users = JSON.parse(data);
-
-//         if (users.users.some(user => user.username === username)) {
-//             return res.send('Username already exists.');
-//         }
-
-//         users.users.push({ username, password });
-
-//         fs.writeFile('user.json', JSON.stringify(users, null, 2), (err) => {
-//             if (err) {
-//                 return res.status(500).send('Error updating user data.');
-//             }
-//            // res.redirect(`/user/${username}`);
-//            res.redirect('/userpage.html');
-//         });
-//     });
-// });
-
-// app.post('/register', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.send('Username and password are required.');
-//     }
-
-//     fs.readFile('user.json', (err, data) => {
-//         if (err) {
-//             return res.status(500).send('Error reading user data.');
-//         }
-
-//         const users = JSON.parse(data);
-
-//         if (users.users.some(user => user.username === username)) {
-//             return res.status(400).send('Username already exists.');
-//         }
-
-//         users.users.push({ username, password });
-
-//         fs.writeFile('user.json', JSON.stringify(users, null, 2), (err) => {
-//             if (err) {
-//                 return res.status(500).send('Error updating user data.');
-//             }
-//             res.status(200).send('Registration successful.');
-//         });
-//     });
-// });
 
 app.post('/register', (req, res) => {
   const { name, email, phone, username, password } = req.body;
 
   console.log(req.body);
 
-  // Validate required fields
+  
   if (!name || !email || !phone || !username || !password) {
       return res.status(400).send('All fields are required.');
   }
 
-  // // Validate password (you can also use your isValidPassword function here)
-  // if (password.length < 8 || password.length > 16) {
-  //     return res.status(400).send('Password must be between 8 to 16 characters.');
-  // }
 
-  // Read user data from user.json
+
+ 
   
   fs.readFile('user.json', (err, data) => {
       if (err) {
@@ -829,17 +632,17 @@ app.post('/register', (req, res) => {
 
       let users = JSON.parse(data);
 
-      // Check if username already exists
+      
       if (users.users.some(user => user.username === username)) {
           return res.status(400).send('Username already exists.');
       }
 
-      // Add new user to the users array
+      
       users.users.push({ name, email, phone, username, password });
 
       
 
-      // Write updated user data back to user.json
+      
       client.verify.v2.services("VAe2e316c8308973d9104238e55a027d48")
       .verifications
       .create({to: '+917257067085', channel: 'sms',customCode: phone.toString()})
@@ -879,21 +682,21 @@ app.post('/reset-password', (req, res) => {
   console.log("hello world");
   console.log(username);
   
-   // Update password (example: update user.json file)
+  
   const userFilePath = path.join(__dirname, 'user.json');
 
   try {
-      // Read user data from user.json
+     
       const userData = JSON.parse(fs.readFileSync(userFilePath, 'utf8'));
 
-     // console.log(userData["username"]);
+    
       const userToUpdate = userData.users.find(user => user.username === username);
       if (!userToUpdate) {
                   return res.status(404).send('User not found');
               }
       console.log(userToUpdate);
 
-      // Update password for the specified user
+      
       if (userToUpdate) {
         console.log(userToUpdate);
         if (userToUpdate.password !== oldPassword) {
@@ -903,11 +706,10 @@ app.post('/reset-password', (req, res) => {
         userToUpdate.password = newPassword;
         
 
-          // Write updated user data back to user.json
+         
           fs.writeFileSync(userFilePath, JSON.stringify(userData, null, 4), 'utf8');
 
-          // Clear OTP data after password update
-          //global.otpData = null;
+          
 
           res.status(200).json({ message: 'Password updated successfully' });
       } else {
@@ -923,7 +725,7 @@ app.post('/verifyOTP', (req, res) => {
   const { username, enteredOTP } = req.body;
   console.log(req.body);
 
-  // Retrieve stored OTP for the provided username
+ 
   const storedOTPData = otpStore.get(username);
   console.log(storedOTPData);
 
@@ -934,14 +736,14 @@ app.post('/verifyOTP', (req, res) => {
   const { email, otp } = storedOTPData;
   console.log(otp);
 
-  // Validate OTP
+ 
   console.log(otp.toString()+" "+enteredOTP.toString());
   if (otp.toString() === enteredOTP.toString()) {
-      // OTP verified successfully, you can proceed with password reset
+     
       console.log("hello11");
       res.status(200).json({ message: 'OTP verified successfully', email });
   } else {
-      // Invalid OTP
+      
       console.log("world22");
       res.status(400).json({ error: 'Invalid OTP. Please try again.' });
   }
@@ -951,22 +753,12 @@ app.post('/sendOTP', (req, res) => {
   const { username, email } = req.body;
   console.log(req.body);
 
-  // Generate OTP (example: generate a random 6-digit OTP)
+  
   const otp = Math.floor(100000 + Math.random() * 900000);
 
-  // Store OTP for verification (you can use a database or session storage for production)
-  // For simplicity, we'll store it in memory as a global variable
-  
+ 
   otpStore.set(username, { email, otp });
 
-  // Send OTP via Email using Nodemailer
-  // const transporter = nodemailer.createTransport({
-  //     service: 'Gmail',
-  //     auth: {
-  //         user: 'your_email@gmail.com',
-  //         pass: 'your_email_password'
-  //     }
-  // });
 
   const mailOptions = {
       from: 'shaketjh123@gmail.com',
@@ -990,7 +782,7 @@ app.post('/validUser', (req, res) => {
   const { username, email } = req.body;
   const userFilePath = path.join(__dirname, 'user.json');
 
-  // Read user data from user.json file
+  
   fs.readFile(userFilePath, 'utf8', (err, data) => {
       if (err) {
           console.error('Error reading user data:', err);
@@ -1000,7 +792,7 @@ app.post('/validUser', (req, res) => {
       try {
           const userData = JSON.parse(data);
 
-          // Check if any user matches the provided username or email
+         
           const userExists = userData.users.some(user => user.username === username || user.email === email);
 
           if (userExists) {
@@ -1019,17 +811,13 @@ app.post('/validateUser', (req, res) => {
   const { username, email } = req.body;
   console.log(req.body);
 
-  // Read user data from user.json
+ 
   const userFilePath = path.join(__dirname, 'user.json');
   try {
-      // const userData = JSON.parse(fs.readFileSync(userFilePath, 'utf8'));
-      // console.log(userData);
-
-      // // Check if username exists in user data
-      // const user = userData.users.find(user => user.username === username);
+      
       const userData = JSON.parse(fs.readFileSync(userFilePath, 'utf8'));
 
-     // console.log(userData["username"]);
+     
       const user = userData.users.find(user => user.username === username);
       console.log(user);
       if (!user) {
@@ -1037,13 +825,13 @@ app.post('/validateUser', (req, res) => {
       }
       console.log("hello");
 
-      // Check if provided email matches the user's email
+     
       if (user.email !== email) {
           return res.status(400).json({ valid: false, message: 'Invalid email for the given username' });
       }
       console.log("hello");
 
-      // If both username and email are valid
+    
       res.status(200).json({ valid: true, message: 'Validation successful' });
   } catch (error) {
       console.error('Error reading user data:', error);
@@ -1064,29 +852,28 @@ app.post('/updatePassword', (req, res) => {
 
 const { email, otp } = storedOTPData;
 
-  // Update password (example: update user.json file)
+  
   const userFilePath = path.join(__dirname, 'user.json');
 
   try {
-      // Read user data from user.json
+      
       const userData = JSON.parse(fs.readFileSync(userFilePath, 'utf8'));
 
-     // console.log(userData["username"]);
+     
       const userToUpdate = userData.users.find(user => user.username === username);
       console.log(userToUpdate);
 
-      // Update password for the specified user
+     
       if (userToUpdate) {
         console.log(userToUpdate);
         
         userToUpdate.password = newPassword;
         
 
-          // Write updated user data back to user.json
+         
           fs.writeFileSync(userFilePath, JSON.stringify(userData, null, 4), 'utf8');
 
-          // Clear OTP data after password update
-          //global.otpData = null;
+          
 
           res.status(200).json({ message: 'Password updated successfully' });
       } else {
@@ -1099,52 +886,6 @@ const { email, otp } = storedOTPData;
 });
 
 
-// Endpoint to update a product via PUT request
-// app.put('/api/products/:id', (req, res) => {
-    
-//     const productId = parseInt(req.params.id); // Extract product ID from request params
-//     const { product_name, product_number, color, size, price } = req.body;
-//     console.log('Received PUT request for product ID:', productId);
-//     console.log('Update Data:', req.body);
-
-//     console.log(product_name);
-
-//     fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-//         if (err) {
-//             console.error('Error reading file:', err);
-//             res.status(500).json({ error: 'Internal Server Error' });
-//             return;
-//         }
-        
-//         let products = JSON.parse(data);
-//         const productIndex = products.findIndex(product => product.id === productId);
-
-//         if (productIndex === -1) {
-//             res.status(404).json({ error: `Product with ID ${productId} not found.` });
-//             return;
-//         }
-
-//         // Update the product with new data
-//         products[productIndex] = {
-//             id: productId,
-//             product_name: product_name,
-//             product_number: product_number,
-//             color: color,
-//             size: size,
-//             price: price
-//         };
-
-//         // Write updated products array back to the JSON file
-//         fs.writeFile(jsonFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
-//             if (err) {
-//                 console.error('Error writing file:', err);
-//                 res.status(500).json({ error: 'Internal Server Error' });
-//                 return;
-//             }
-//             res.json(products[productIndex]); // Respond with the updated product
-//         });
-//     });
-// });
 
 app.put('/api/products/:id', (req, res) => {
     const productId = parseInt(req.params.id); // Extract product ID from request params
@@ -1152,7 +893,7 @@ app.put('/api/products/:id', (req, res) => {
     console.log('Received PUT request for product ID:', productId);
     console.log('Update Data:', req.body);
 
-    // Read products data from the JSON file
+    
     fs.readFile(jsonFilePath, 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading file:', err);
@@ -1162,14 +903,14 @@ app.put('/api/products/:id', (req, res) => {
         try {
             let products = JSON.parse(data);
 
-            // Find the index of the product to be updated
+            
             const productIndex = products.findIndex(product => product.id === productId);
 
             if (productIndex === -1) {
                 return res.status(404).json({ error: `Product with ID ${productId} not found.` });
             }
 
-            // Update the product with new data (only update specific fields)
+            
             if (product_name) {
                 products[productIndex].product_name = product_name;
             }
@@ -1186,13 +927,13 @@ app.put('/api/products/:id', (req, res) => {
                 products[productIndex].price = price;
             }
 
-            // Write updated products array back to the JSON file
+           
             fs.writeFile(jsonFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
                 if (err) {
                     console.error('Error writing file:', err);
                     return res.status(500).json({ error: 'Internal Server Error' });
                 }
-                res.json(products[productIndex]); // Respond with the updated product
+                res.json(products[productIndex]); 
             });
         } catch (error) {
             console.error('Error parsing JSON:', error);
@@ -1203,7 +944,7 @@ app.put('/api/products/:id', (req, res) => {
 
 
 app.delete('/api/products/:id', (req, res) => {
-    const productId = parseInt(req.params.id); // Extract product ID from request params
+    const productId = parseInt(req.params.id); 
 
     fs.readFile(jsonFilePath, 'utf8', (err, data) => {
         if (err) {
@@ -1220,10 +961,10 @@ app.delete('/api/products/:id', (req, res) => {
             return;
         }
 
-        // Remove the product from the products array
+        
         products.splice(productIndex, 1);
 
-        // Write updated products array back to the JSON file
+        
         fs.writeFile(jsonFilePath, JSON.stringify(products, null, 2), 'utf8', (err) => {
             if (err) {
                 console.error('Error writing file:', err);
@@ -1255,24 +996,11 @@ app.delete('/api/products/:id', (req, res) => {
     })
   );
     
-  
-  // passport.use(
-  //   new LocalStrategy(function verify(username, password, cb) {
-  //     if (username === 'john@123' && password === 'password') {
-  //       const user = {
-  //         id: 1,
-  //         username: 'john'
-  //       };
-  //       return cb(null, user);
-  //     } else {
-  //       return cb(null, false);
-  //     }
-  //   })
-  // );
+
 
   passport.use(
     new LocalStrategy(function verify(username, password, cb) {
-      // Read user data from user.json
+      
       fs.readFile(userDataFilePath, (err, data) => {
         if (err) {
           return cb(err);
@@ -1281,14 +1009,14 @@ app.delete('/api/products/:id', (req, res) => {
         try {
           const users = JSON.parse(data).users;
           
-          // Find user with matching username and password
+         
           const user = users.find(user => user.username === username && user.password === password);
   
           if (user) {
-            // User found, authenticate
+            
             return cb(null, user);
           } else {
-            // User not found or invalid credentials
+            
             return cb(null, false);
           }
         } catch (error) {
@@ -1309,7 +1037,7 @@ app.delete('/api/products/:id', (req, res) => {
   
 
 
-// Start the server
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
