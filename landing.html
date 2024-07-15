@@ -1,72 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Options</title>
-</head>
-<body>
-    <h1>Welcome!</h1>
-    <p>Please select login as:</p>
-    <button onclick="window.location.href = '/admin.html'">Admin</button>
-    <button onclick="window.location.href = '/login.html'">User</button>
-</body>
-</html> -->
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Options</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button.admin {
-            background-color: #007bff;
-            color: #fff;
-            margin-right: 10px;
-        }
-        button.user {
-            background-color: #28a745;
-            color: #fff;
-        }
-        button:hover {
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome!</h1>
-    <p>Please select login as:</p>
-    <button class="admin" onclick="window.location.href = '/admin.html'">Admin</button>
-    <button class="user" onclick="window.location.href = '/login.html'">User</button>
-</body>
-</html>
- -->
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -124,7 +56,7 @@
             window.location.href = '/userpage.html';
         }
 
-        // Check if a logout message is present in the URL query params
+        
         const params = new URLSearchParams(window.location.search);
         const message = params.get('message');
 
